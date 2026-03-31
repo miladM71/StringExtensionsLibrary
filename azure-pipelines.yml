@@ -30,5 +30,5 @@ steps:
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;!$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
-    publishVstsFeed: 'stringextensions-feed'
+    publishVstsFeed: 'StringExtensionsLibrary/stringextensions-feed'
     allowPackageConflicts: true
