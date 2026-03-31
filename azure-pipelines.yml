@@ -26,5 +26,5 @@ steps:
   displayName: 'Authenticate to Azure Artifacts'
 
 - script: |
-    dotnet nuget push "$(Build.ArtifactStagingDirectory)/*.nupkg" --source "stringextensions-feed" --api-key AzureArtifacts
+    dotnet nuget push "$(Build.ArtifactStagingDirectory)/*.nupkg" --source "https://pkgs.dev.azure.com/mnazari9/_packaging/stringextensions-feed/nuget/v3/index.json" --api-key AzureArtifacts
   displayName: 'Push to Azure Artifacts'
