@@ -8,7 +8,6 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
@@ -26,9 +25,6 @@ steps:
 - task: NuGetAuthenticate@1
   displayName: 'Authenticate to Azure Artifacts'
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    publishVstsFeed: 'stringextensions-feed'
+- script: |
+    dotnet nuget push "$(Build.ArtifactStagingDirectory)/*.nupkg" --source "stringextensions-feed" --api-key AzureArtifacts
   displayName: 'Push to Azure Artifacts'
