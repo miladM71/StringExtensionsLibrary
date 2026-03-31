@@ -2,35 +2,30 @@ trigger:
 - main
 
 pool:
-  name: Default   # your self-hosted agent
+  name: Default
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-
-# Install .NET 8
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
     version: '8.x'
 
-# Restore dependencies
 - script: dotnet restore
-  displayName: Restore dependencies
+  displayName: 'Restore dependencies'
 
-# Build project
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: Build project
+  displayName: 'Build project'
 
-# Pack NuGet package
 - script: dotnet pack --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
-  displayName: Pack NuGet package
+  displayName: 'Pack NuGet package'
 
-# Push to Azure Artifacts
 - task: NuGetCommand@2
+  displayName: 'Push to Azure Artifacts'
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    publishVstsFeed: 'stringextensions-feed'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;!$(Build.ArtifactStagingDirectory)/*.symbols.nupkg'
+    publishVstsFeed: 'StringExtensionsLibrary/stringextensions-feed'
     allowPackageConflicts: true
